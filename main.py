@@ -1,20 +1,13 @@
 import logging
-import os
 import sys
-from os import getenv
 import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
-from dotenv import load_dotenv
 
+from config_data import config
 from handlers.help import help_router
-
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
-
-TOKEN = getenv("BOT_TOKEN")
+from handlers.start import start_router
 
 if __name__ == '__main__':
     loop = asyncio.new_event_loop()
@@ -22,8 +15,6 @@ if __name__ == '__main__':
 
 else:
     loop = asyncio.get_event_loop()
-
-
 
 
 async def on_startup(_):
@@ -34,12 +25,10 @@ async def main() -> None:
     dp = Dispatcher(loop=loop, storage=MemoryStorage())
     dp.include_routers(
         help_router,
-        # calculation.router,
-        # history.router
+        start_router,
     )
-    # Initialize Bot instance with a default parse mode which will be passed to all API calls
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
-    # And the run events dispatching
+
+    bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML)
     await dp.start_polling(bot)
 
 
