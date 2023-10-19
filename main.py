@@ -6,6 +6,7 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from config_data import config
+from handlers.calculator import calculator_router
 from handlers.help import help_router
 from handlers.start import start_router
 
@@ -26,6 +27,7 @@ async def main() -> None:
     dp.include_routers(
         help_router,
         start_router,
+        calculator_router,
     )
 
     bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML)
