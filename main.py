@@ -7,6 +7,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 
 from config_data import config
 from handlers.calculator import calculator_router
+from handlers.echo import echo_router
 from handlers.help import help_router
 from handlers.start import start_router
 
@@ -28,6 +29,7 @@ async def main() -> None:
         help_router,
         start_router,
         calculator_router,
+        echo_router,
     )
 
     bot = Bot(config.BOT_TOKEN, parse_mode=ParseMode.HTML)
