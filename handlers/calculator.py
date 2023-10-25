@@ -1,6 +1,6 @@
 from aiogram import Router
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 
 from config_data.config import DEFAULT_COMMANDS
@@ -15,7 +15,10 @@ calculator_router = Router()
 async def bot_calculator(message: Message, state: FSMContext) -> None:
     """/calculator — расчет стоимости доставки"""
     await state.set_state(FSMShip.to_city)
-    await message.answer(f"Пожалуйста, введите город, в который вы хотите отправить посыпку.")
+    await message.answer(
+        f"Пожалуйста, введите город, в который вы хотите отправить посыпку.",
+        reply_markup=ReplyKeyboardRemove(),
+    )
 
     # print(api_request('calculator', {
     #     "to": {

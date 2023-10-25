@@ -3,6 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from config_data.config import DEFAULT_COMMANDS
+from database.storage_sqlite import DB
 from loader import bot
 from utils.api_ship import api_request
 
@@ -22,3 +23,5 @@ async def bot_help(message: Message):
     # text = [f"/{command} - {desk}" for command, desk in DEFAULT_COMMANDS]DEFAULT_COMMANDS
     # bot.reply_to(message, "\n".join(text))
 
+    db = DB()
+    db.add_history(message.chat.id, "Москва", "Санкт-Петербург", 10.2, [])
