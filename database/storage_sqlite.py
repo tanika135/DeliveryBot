@@ -12,7 +12,7 @@ class DB:
 
     def __init__(self):
         try:
-            sql_path = os.path.join(os.path.dirname(__file__), '..', 'database', 'database.db')
+            sql_path = os.path.join(os.path.dirname(__file__), '..', 'database', 'sqlite_database.db')
             self._connection = sqlite3.connect(sql_path)
             self._history = History(self._connection)
             self._result = Result(self._connection)
