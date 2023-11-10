@@ -29,6 +29,9 @@ class History(BaseModel):
     chat_id = IntegerField(null=False)
     from_city = CharField(null=False)
     to_city = CharField(null=False)
+    places_height = FloatField(null=False)
+    places_length = FloatField(null=False)
+    places_width = FloatField(null=False)
     places_weight = FloatField(null=False)
     date = DateTimeField(default=datetime.datetime.now())
 
