@@ -1,4 +1,5 @@
-from aiogram import Router
+from typing import Any, Dict
+from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message, ReplyKeyboardRemove
@@ -77,23 +78,31 @@ async def process_places_width(message: Message, state: FSMContext) -> None:
     await state.set_state(Form.places_weight)
     await message.answer(
         f"Каков вес посылки?",
+        reply_markup=ReplyKeyboardRemove(),
+    )
+
+
+@calculator_router.message(Form.places_weight)
+async def process_places_weight(message: Message, state: FSMContext) -> None:
+    await state.update_data(places_weight=message.text)
+    data = await state.get_data()
+    await state.clear()
+
+    await show_summary(message=message, data=data, positive=False)
+
+
+async def show_summary(message: Message, data: Dict[str, Any], positive: bool = True) -> None:
+    await message.answer(
+        f"Город отправления: {data['from_city']}\n"
+        f"Город назначения: {data['to_city']}\n"
+        f"Высота посылки: {data['places_height']}\n"
+        f"Длина посылки: {data['places_length']}\n"
+        f"Ширина посылки: {data['places_width']}\n"
+        f"Вес посылки: {data['places_weight']}\n"
     )
 
 
 
-    # print(api_request('calculator', {
-    #     "to": {
-    #         "city": "г Санкт-Петербург",
-    #     },
-    #     "from": {
-    #         "city": "г Москва",
-    #     },
-    #     "places": [{
-    #         "height": 45,
-    #         "length": 30,
-    #         "width": 20,
-    #         "weight": 20
-    #     }],
-    #     "assessedCost": 100,
-    # }, 'POST'))
+
+
 
