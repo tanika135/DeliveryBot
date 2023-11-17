@@ -34,10 +34,10 @@ async def bot_calculator(message: Message, state: FSMContext) -> None:
 
 
 @calculator_router.message(Command("cancel"))
-@calculator_router.message(F.text.casefold() == "cancel")
+@calculator_router.message(F.text.casefold() == "отмена")
 async def cancel_handler(message: Message, state: FSMContext) -> None:
     """
-    Allow user to cancel any action
+    Позволяет пользователю завершить заполнение и удалить информацию о посылке, которая была добавлена
     """
     current_state = await state.get_state()
     if current_state is None:
@@ -46,7 +46,7 @@ async def cancel_handler(message: Message, state: FSMContext) -> None:
     logging.info("Cancelling state %r", current_state)
     await state.clear()
     await message.answer(
-        "Cancelled.",
+        "Вся заполненная информацию удалена. Чтобы начать сначала нажмите /calculator",
         reply_markup=ReplyKeyboardRemove(),
     )
 
@@ -60,7 +60,7 @@ async def process_from_city(message: Message, state: FSMContext) -> None:
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [
-                    KeyboardButton(text="cancel"),
+                    KeyboardButton(text="Отмена"),
                 ]
             ],
             resize_keyboard=True,
@@ -77,7 +77,7 @@ async def process_to_city(message: Message, state: FSMContext) -> None:
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [
-                    KeyboardButton(text="cancel"),
+                    KeyboardButton(text="Отмена"),
                 ]
             ],
             resize_keyboard=True,
@@ -91,7 +91,14 @@ async def process_places_height(message: Message, state: FSMContext) -> None:
     await state.set_state(Form.places_length)
     await message.answer(
         f"Какова длина посылки?",
-        reply_markup=ReplyKeyboardRemove(),
+        reply_markup=ReplyKeyboardMarkup(
+            keyboard=[
+                [
+                    KeyboardButton(text="Отмена"),
+                ]
+            ],
+            resize_keyboard=True,
+        ),
     )
 
 
@@ -101,7 +108,14 @@ async def process_places_length(message: Message, state: FSMContext) -> None:
     await state.set_state(Form.places_width)
     await message.answer(
         f"Какова ширина посылки?",
-        reply_markup=ReplyKeyboardRemove(),
+        reply_markup=ReplyKeyboardMarkup(
+            keyboard=[
+                [
+                    KeyboardButton(text="Отмена"),
+                ]
+            ],
+            resize_keyboard=True,
+        ),
     )
 
 
@@ -111,7 +125,14 @@ async def process_places_width(message: Message, state: FSMContext) -> None:
     await state.set_state(Form.places_weight)
     await message.answer(
         f"Каков вес посылки?",
-        reply_markup=ReplyKeyboardRemove(),
+        reply_markup=ReplyKeyboardMarkup(
+            keyboard=[
+                [
+                    KeyboardButton(text="Отмена"),
+                ]
+            ],
+            resize_keyboard=True,
+        ),
     )
 
 
